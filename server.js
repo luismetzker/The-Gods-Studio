@@ -4,15 +4,14 @@ require('dotenv').config();
 
 const path = require('path');
 const fs = require('fs');
-const fsp = require('fs/promises');
 const crypto = require('crypto');
 const express = require('express');
+const Database = require('better-sqlite3');
 
 const ROOT = __dirname;
 const PUBLIC_DIR = path.join(ROOT, 'public');
 const DATA_DIR = path.join(ROOT, 'data');
-const USERS_FILE = path.join(DATA_DIR, 'users.json');
-const SECRET_FILE = path.join(ROOT, '.session-secret');
+const DB_PATH = path.join(DATA_DIR, 'accounts.db');
 
 const PORT = process.env.PORT || 3000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
@@ -21,6 +20,7 @@ const CAPTCHA_DIFFICULTY = 4;
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '';
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || '';
 const GOOGLE_ENABLED = Boolean(GOOGLE_CLIENT_ID && GOOGLE_CLIENT_SECRET);
+const DB_SYNC_TOKEN = process.env.DB_SYNC_TOKEN || '';
 
 const PROTECTED_PAGES = new Set(['/shop.html', '/aplicativos.html', '/contato.html']);
 
@@ -28,60 +28,101 @@ function getSecret() {
   const fromEnv = process.env.SESSION_SECRET;
   if (fromEnv && fromEnv.length >= 16) return fromEnv;
   try {
-    const existing = fs.readFileSync(SECRET_FILE, 'utf8').trim();
+    const existing = fs.readFileSync(path.join(ROOT, '.session-secret'), 'utf8').trim();
     if (existing) return existing;
   } catch (_) {}
   const generated = crypto.randomBytes(48).toString('base64url');
   try {
-    fs.writeFileSync(SECRET_FILE, generated, { mode: 0o600 });
+    fs.writeFileSync(path.join(ROOT, '.session-secret'), generated, { mode: 0o600 });
   } catch (_) {}
   return generated;
 }
 const SECRET = getSecret();
 
-async function loadUsers() {
+let db;
+function initDb() {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
+  db = new Database(DB_PATH);
+  db.pragma('journal_mode = WAL');
+  db.pragma('foreign_keys = ON');
+  db.exec(
+    'CREATE TABLE IF NOT EXISTS users (' +
+      'id TEXT PRIMARY KEY, ' +
+      'username TEXT UNIQUE NOT NULL, ' +
+      'email TEXT UNIQUE NOT NULL, ' +
+      'passwordHash TEXT NOT NULL, ' +
+      'provider TEXT NOT NULL DEFAULT \'local\', ' +
+      'googleSub TEXT, ' +
+      'createdAt INTEGER NOT NULL)'
+  );
   try {
-    const raw = await fsp.readFile(USERS_FILE, 'utf8');
-    const parsed = JSON.parse(raw);
-    if (parsed && Array.isArray(parsed.users)) return parsed;
-  } catch (_) {}
-  return { users: [] };
+    const jsonPath = path.join(DATA_DIR, 'users.json');
+    if (fs.existsSync(jsonPath)) {
+      const arr = JSON.parse(fs.readFileSync(jsonPath, 'utf8')).users || [];
+      const ins = db.prepare(
+        'INSERT OR IGNORE INTO users (id,username,email,passwordHash,provider,googleSub,createdAt) VALUES (?,?,?,?,?,?,?)'
+      );
+      const tx = db.transaction((us) => {
+        for (const u of us) {
+          if (u && u.username && u.email) {
+            ins.run(
+              u.id || crypto.randomBytes(12).toString('hex'),
+              String(u.username).toLowerCase(),
+              String(u.email).toLowerCase(),
+              u.passwordHash || '',
+              u.provider || 'local',
+              u.googleSub || null,
+              u.createdAt || Date.now()
+            );
+          }
+        }
+      });
+      tx(arr);
+      try { fs.renameSync(jsonPath, jsonPath + '.migrated'); } catch (_) {}
+    }
+  } catch (e) {
+    console.error('Falha na migração do JSON:', e);
+  }
 }
 
-let usersData = { users: [] };
-let saveQueue = Promise.resolve();
-
-async function persistUsers() {
-  await fsp.mkdir(DATA_DIR, { recursive: true });
-  const tmp = USERS_FILE + '.tmp';
-  const json = JSON.stringify(usersData, null, 2);
-  await fsp.writeFile(tmp, json);
-  await fsp.rename(tmp, USERS_FILE);
-}
-
-function saveUsers() {
-  saveQueue = saveQueue.then(persistUsers).catch((err) => {
-    console.error('Falha ao salvar usuários:', err);
-  });
-  return saveQueue;
-}
-
-function findUser(predicate) {
-  return usersData.users.find(predicate);
+function rowToUser(r) {
+  if (!r) return null;
+  return {
+    id: r.id,
+    username: r.username,
+    email: r.email,
+    passwordHash: r.passwordHash,
+    provider: r.provider,
+    googleSub: r.googleSub,
+    createdAt: r.createdAt,
+  };
 }
 function findUserById(id) {
-  return usersData.users.find((u) => u.id === id);
+  return rowToUser(db.prepare('SELECT * FROM users WHERE id = ?').get(id));
 }
-function findUserByEmail(email) {
-  const e = String(email).toLowerCase();
-  return usersData.users.find((u) => u.email === e);
+function findByEmail(e) {
+  return rowToUser(db.prepare('SELECT * FROM users WHERE email = ?').get(String(e).toLowerCase()));
 }
-function findUserByUsername(username) {
-  const u = String(username).toLowerCase();
-  return usersData.users.find((x) => x.username === u);
+function findByUsername(u) {
+  return rowToUser(db.prepare('SELECT * FROM users WHERE username = ?').get(String(u).toLowerCase()));
 }
-function findUserByGoogle(sub) {
-  return usersData.users.find((x) => x.googleSub === sub);
+function findByGoogle(sub) {
+  return rowToUser(db.prepare('SELECT * FROM users WHERE googleSub = ?').get(sub));
+}
+function createUser(u) {
+  db.prepare(
+    'INSERT INTO users (id,username,email,passwordHash,provider,googleSub,createdAt) VALUES (?,?,?,?,?,?,?)'
+  ).run(u.id, u.username.toLowerCase(), u.email.toLowerCase(), u.passwordHash, u.provider, u.googleSub || null, u.createdAt);
+}
+function updatePasswordHash(id, hash) {
+  db.prepare('UPDATE users SET passwordHash = ? WHERE id = ?').run(hash, id);
+}
+function linkGoogle(id, sub) {
+  db.prepare('UPDATE users SET googleSub = ? WHERE id = ?').run(sub, id);
+}
+function countUsers() {
+  const row = db.prepare('SELECT COUNT(*) AS c FROM users').get();
+  return row ? row.c : 0;
 }
 
 function hashPassword(password) {
@@ -269,7 +310,7 @@ api.get('/me', (req, res) => {
   res.json({ authenticated: true, user: userPublic(u) });
 });
 
-api.post('/signup', async (req, res) => {
+api.post('/signup', (req, res) => {
   try {
     const ip = req.ip;
     if (!checkRateLimit('signup:' + ip, 10, 15 * 60 * 1000)) {
@@ -300,10 +341,10 @@ api.post('/signup', async (req, res) => {
     if (!verifyCaptcha(body.captchaToken, body.captchaNonce)) {
       return res.status(400).json({ error: 'Falha na verificação anti-bot. Tente novamente.' });
     }
-    if (findUserByUsername(username)) {
+    if (findByUsername(username)) {
       return res.status(409).json({ error: 'Este nome de usuário já está em uso.' });
     }
-    if (findUserByEmail(email)) {
+    if (findByEmail(email)) {
       return res.status(409).json({ error: 'Este e-mail já está cadastrado.' });
     }
 
@@ -315,8 +356,7 @@ api.post('/signup', async (req, res) => {
       provider: 'local',
       createdAt: Date.now(),
     };
-    usersData.users.push(user);
-    saveUsers();
+    createUser(user);
     setSessionCookie(res, user.id);
     return res.json({ ok: true, user: userPublic(user) });
   } catch (err) {
@@ -325,7 +365,7 @@ api.post('/signup', async (req, res) => {
   }
 });
 
-api.post('/login', async (req, res) => {
+api.post('/login', (req, res) => {
   try {
     const ip = req.ip;
     if (!checkRateLimit('login:' + ip, 20, 15 * 60 * 1000)) {
@@ -343,7 +383,7 @@ api.post('/login', async (req, res) => {
       return res.status(400).json({ error: 'Informe e-mail/usuário e senha.' });
     }
 
-    const user = findUserByEmail(identifier) || findUserByUsername(identifier);
+    const user = findByEmail(identifier) || findByUsername(identifier);
     if (!user || user.provider !== 'local') {
       return res.status(401).json({ error: 'E-mail ou senha inválidos.' });
     }
@@ -375,7 +415,7 @@ api.post('/logout', (req, res) => {
   res.json({ ok: true });
 });
 
-api.post('/change-password', async (req, res) => {
+api.post('/change-password', (req, res) => {
   try {
     const u = getUserFromReq(req);
     if (!u) return res.status(401).json({ error: 'Não autenticado.' });
@@ -388,8 +428,7 @@ api.post('/change-password', async (req, res) => {
     if (!validPassword(next)) {
       return res.status(400).json({ error: 'A nova senha precisa ter ao menos 8 caracteres, com letras e números.' });
     }
-    u.passwordHash = hashPassword(next);
-    saveUsers();
+    updatePasswordHash(u.id, hashPassword(next));
     res.json({ ok: true });
   } catch (err) {
     console.error(err);
@@ -450,11 +489,11 @@ if (GOOGLE_ENABLED) {
       const profile = await infoRes.json();
       if (!profile.sub || !profile.email) return res.status(400).send('Dados incompletos.');
 
-      let user = findUserByGoogle(profile.sub);
+      let user = findByGoogle(profile.sub);
       if (!user) {
-        user = findUserByEmail(String(profile.email).toLowerCase());
+        user = findByEmail(String(profile.email).toLowerCase());
         if (user && !user.googleSub) {
-          user.googleSub = profile.sub;
+          linkGoogle(user.id, profile.sub);
         } else if (!user) {
           user = {
             id: crypto.randomBytes(12).toString('hex'),
@@ -465,9 +504,8 @@ if (GOOGLE_ENABLED) {
             googleSub: profile.sub,
             createdAt: Date.now(),
           };
-          usersData.users.push(user);
+          createUser(user);
         }
-        saveUsers();
       }
       setSessionCookie(res, user.id);
       res.redirect('/');
@@ -479,6 +517,37 @@ if (GOOGLE_ENABLED) {
 }
 
 app.use('/api', api);
+
+if (DB_SYNC_TOKEN) {
+  app.get('/api/db-info', (req, res) => {
+    if (req.query.token !== DB_SYNC_TOKEN) return res.status(403).send('Forbidden');
+    res.json({ users: countUsers() });
+  });
+
+  app.get('/api/db-backup', (req, res) => {
+    if (req.query.token !== DB_SYNC_TOKEN) return res.status(403).send('Forbidden');
+    try { db.pragma('wal_checkpoint(TRUNCATE)'); } catch (_) {}
+    if (!fs.existsSync(DB_PATH)) return res.status(404).send('No database');
+    res.download(DB_PATH, 'accounts.db');
+  });
+
+  app.post('/api/db-backup', express.raw({ type: 'application/octet-stream', limit: '50mb' }), (req, res) => {
+    if (req.query.token !== DB_SYNC_TOKEN) return res.status(403).send('Forbidden');
+    if (!Buffer.isBuffer(req.body) || req.body.length < 100) return res.status(400).send('Invalid');
+    try {
+      try { db.pragma('wal_checkpoint(TRUNCATE)'); } catch (_) {}
+      fs.mkdirSync(path.join(DATA_DIR, 'backups'), { recursive: true });
+      try { fs.copyFileSync(DB_PATH, path.join(DATA_DIR, 'backups', 'accounts-' + Date.now() + '.db')); } catch (_) {}
+      try { db.close(); } catch (_) {}
+      fs.writeFileSync(DB_PATH, req.body);
+      initDb();
+    } catch (e) {
+      console.error('Falha ao restaurar db:', e);
+      return res.status(500).send('Restore failed');
+    }
+    res.json({ ok: true });
+  });
+}
 
 app.use((req, res, next) => {
   if (PROTECTED_PAGES.has(req.path)) {
@@ -494,12 +563,11 @@ app.use((req, res) => {
   res.status(404).send('Página não encontrada.');
 });
 
-(async () => {
-  usersData = await loadUsers();
-  app.listen(PORT, () => {
-    console.log(`The Gods Studio rodando em http://localhost:${PORT} (env: ${NODE_ENV})`);
-    console.log(`Login com Google: ${GOOGLE_ENABLED ? 'ativado' : 'desativado'}`);
-  });
-})();
+initDb();
+app.listen(PORT, () => {
+  console.log(`The Gods Studio rodando em http://localhost:${PORT} (env: ${NODE_ENV})`);
+  console.log(`Login com Google: ${GOOGLE_ENABLED ? 'ativado' : 'desativado'}`);
+  console.log(`Backup do banco: ${DB_SYNC_TOKEN ? 'ativado (token definido)' : 'desativado'}`);
+});
 
 module.exports = app;

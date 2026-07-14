@@ -12,3 +12,6 @@ data/
 # Arquivos temporários
 *.tmp
 .DS_Store
+
+# Backup local do banco (sync-db.js)
+db-backup/

@@ -1492,11 +1492,17 @@
                 <form id="change-pw-form" class="auth-form" style="gap: 10px;">
                     <div class="modal-field">
                         <label>Senha atual</label>
-                        <input type="password" name="current" autocomplete="current-password">
+                        <div class="pw-field">
+                            <input type="password" name="current" id="cp-current" autocomplete="current-password">
+                            <button type="button" class="pw-toggle" data-target="cp-current" aria-label="Mostrar senha">👁</button>
+                        </div>
                     </div>
                     <div class="modal-field">
                         <label>Nova senha</label>
-                        <input type="password" name="next" autocomplete="new-password">
+                        <div class="pw-field">
+                            <input type="password" name="next" id="cp-next" autocomplete="new-password">
+                            <button type="button" class="pw-toggle" data-target="cp-next" aria-label="Mostrar senha">👁</button>
+                        </div>
                     </div>
                     <div class="modal-error" id="change-pw-error"></div>
                     <div class="modal-actions">

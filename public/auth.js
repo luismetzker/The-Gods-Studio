@@ -241,6 +241,19 @@
       .catch(() => {});
   }
 
+  function setupPasswordToggles() {
+    document.querySelectorAll('.pw-toggle').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const input = document.getElementById(btn.dataset.target);
+        if (!input) return;
+        const show = input.type === 'password';
+        input.type = show ? 'text' : 'password';
+        btn.textContent = show ? '🙈' : '👁';
+        btn.setAttribute('aria-label', show ? 'Ocultar senha' : 'Mostrar senha');
+      });
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', async () => {
     const user = await getMe();
 
@@ -251,5 +264,6 @@
     setupAuthForm('login-form', false);
     setupAuthForm('signup-form', true);
     setupGoogleButton();
+    setupPasswordToggles();
   });
 })();

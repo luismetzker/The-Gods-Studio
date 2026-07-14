@@ -56,11 +56,17 @@
                     </div>
                     <div class="field">
                         <label for="password">Senha</label>
-                        <input id="password" name="password" type="password" autocomplete="new-password" required>
+                        <div class="pw-field">
+                            <input id="password" name="password" type="password" autocomplete="new-password" required>
+                            <button type="button" class="pw-toggle" data-target="password" aria-label="Mostrar senha">👁</button>
+                        </div>
                     </div>
                     <div class="field">
                         <label for="confirm">Confirmar senha</label>
-                        <input id="confirm" name="confirm" type="password" autocomplete="new-password" required>
+                        <div class="pw-field">
+                            <input id="confirm" name="confirm" type="password" autocomplete="new-password" required>
+                            <button type="button" class="pw-toggle" data-target="confirm" aria-label="Mostrar senha">👁</button>
+                        </div>
                     </div>
                     <input class="honeypot" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
                     <div class="captcha-status" id="captcha-status">Verificação anti-bot ao enviar.</div>

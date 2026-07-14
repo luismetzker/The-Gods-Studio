@@ -275,6 +275,45 @@
   border-color: rgb(0, 255, 234);
   box-shadow: 0 0 18px rgba(0, 255, 234, 0.25);
 }
+
+/* Campo de senha com botão de mostrar/ocultar */
+.pw-field {
+  position: relative;
+  width: 100%;
+}
+.pw-field input {
+  padding-right: clamp(40px, 6vw, 52px) !important;
+}
+.modal-card .pw-field input {
+  padding-right: 40px !important;
+}
+.pw-toggle {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+  width: clamp(28px, 4vw, 34px);
+  height: clamp(28px, 4vw, 34px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: rgb(0, 255, 234);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 4px;
+  transition: all 0.2s ease;
+}
+.pw-toggle:hover {
+  text-shadow: 0 0 12px rgba(0, 255, 234, 0.6);
+}
+.pw-toggle:focus-visible {
+  outline: 2px solid rgba(0, 255, 234, 0.6);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
 .auth-form .field {
   display: flex;
   flex-direction: column;
