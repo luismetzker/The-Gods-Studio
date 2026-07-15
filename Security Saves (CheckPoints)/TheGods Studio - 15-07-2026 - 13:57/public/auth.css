@@ -1,0 +1,492 @@
+/* === SHARED AUTH / UI STYLES (The Gods Studio) === */
+
+/* Atenção: botões de login/criar conta piscando quando deslogado */
+@keyframes pulseAttention {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 0 14px rgba(0, 255, 234, 0.25);
+    filter: brightness(1);
+  }
+  50% {
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 0 34px rgba(0, 255, 234, 0.7);
+    filter: brightness(1.25);
+  }
+}
+.top-buttons .btn.pulse-attention {
+  animation: pulseAttention 1.4s ease-in-out infinite;
+  border-color: rgb(0, 255, 234) !important;
+}
+.top-buttons .btn.pulse-attention.btn-primary {
+  animation: pulseAttention 1.4s ease-in-out infinite;
+}
+
+/* Chip do usuário logado */
+.user-chip {
+  font-family: 'Press Start 2P', cursive;
+  font-size: clamp(8px, 0.8vw, 11px);
+  color: rgb(0, 255, 234);
+  background: rgba(0, 0, 0, 0.6);
+  border: 1.5px solid rgba(0, 255, 234, 0.4);
+  border-radius: clamp(6px, 0.6vw, 10px);
+  padding: clamp(6px, 0.6vw, 10px) clamp(10px, 1vw, 16px);
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  max-width: 42vw;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* === SIDEBAR: itens bloqueados === */
+.sidebar a.locked {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: auto;
+}
+.sidebar a.locked:hover {
+  transform: none;
+  padding-left: 20px;
+  background: transparent;
+  border-left-color: transparent;
+  text-shadow: none;
+}
+.sidebar .lock-icon {
+  display: none;
+  margin-right: 8px;
+  font-size: 0.85em;
+}
+.sidebar a.locked .lock-icon {
+  display: inline;
+}
+
+/* === BOTÃO DE CONFIGURAÇÕES (canto da sidebar) === */
+.sidebar-settings {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: none;
+  align-items: center;
+  gap: 8px;
+  width: clamp(40px, 5vw, 54px);
+  height: clamp(40px, 5vw, 54px);
+  overflow: hidden;
+  white-space: nowrap;
+  padding: 0;
+  border-radius: 999px;
+  border: 2px solid rgba(0, 255, 234, 0.6);
+  background: rgba(0, 0, 0, 0.7);
+  color: rgb(0, 255, 234);
+  text-decoration: none;
+  font-family: 'Press Start 2P', cursive;
+  font-size: clamp(7px, 0.8vw, 10px);
+  justify-content: center;
+  transition: width 0.3s ease, padding 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease,
+    background 0.3s ease;
+  z-index: 5;
+}
+.sidebar-settings[hidden] {
+  display: none !important;
+}
+.sidebar-settings:not([hidden]) {
+  display: flex;
+}
+.sidebar-settings .gear {
+  font-size: clamp(16px, 2vw, 22px);
+  line-height: 1;
+  flex-shrink: 0;
+}
+.sidebar-settings .label {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.sidebar-settings:hover {
+  width: calc(100% - 28px);
+  justify-content: flex-start;
+  padding: 0 16px;
+  border-color: rgb(0, 255, 234);
+  box-shadow: 0 0 24px rgba(0, 255, 234, 0.45);
+  background: rgba(0, 0, 0, 0.85);
+}
+.sidebar-settings:hover .label {
+  opacity: 1;
+}
+
+/* === MODAL DE CONFIGURAÇÕES === */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 2000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+.modal-overlay.open {
+  display: flex;
+}
+.modal-card {
+  width: min(100%, 420px);
+  background: rgba(0, 0, 0, 0.92);
+  border: clamp(2px, 0.3vw, 3px) solid rgb(0, 255, 234);
+  border-radius: clamp(10px, 1.2vw, 16px);
+  box-shadow: 0 0 50px rgba(0, 255, 234, 0.25);
+  padding: clamp(18px, 2.2vw, 28px);
+  font-family: 'Press Start 2P', cursive;
+  color: rgb(0, 255, 234);
+}
+.modal-card h2 {
+  font-size: clamp(11px, 1.4vw, 16px);
+  margin: 0 0 18px;
+  line-height: 1.5;
+  text-shadow: 0 0 14px rgba(0, 255, 234, 0.4);
+}
+.modal-card .modal-field {
+  margin-bottom: 14px;
+}
+.modal-card label {
+  display: block;
+  font-size: 7px;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+  color: rgba(0, 255, 234, 0.85);
+}
+.modal-card input {
+  width: 100%;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 9px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1.5px solid rgba(0, 255, 234, 0.4);
+  border-radius: 6px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.modal-card input:focus {
+  outline: none;
+  border-color: rgb(0, 255, 234);
+  box-shadow: 0 0 16px rgba(0, 255, 234, 0.25);
+}
+.modal-card .modal-error {
+  font-size: 7px;
+  line-height: 1.8;
+  color: #ff5b6e;
+  min-height: 14px;
+  margin: 6px 0 10px;
+}
+.modal-card .modal-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.modal-card .btn {
+  flex: 1;
+  padding: 12px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 8px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  text-decoration: none;
+  text-align: center;
+}
+.modal-card .btn-primary {
+  background: linear-gradient(135deg, rgb(0, 255, 234), rgb(0, 200, 180));
+  color: #000;
+}
+.modal-card .btn-outline {
+  background: rgba(0, 0, 0, 0.5);
+  color: rgb(0, 255, 234);
+  border: 1.5px solid rgba(0, 255, 234, 0.5);
+}
+.modal-card .btn-danger {
+  background: rgba(255, 60, 90, 0.15);
+  color: #ff5b6e;
+  border: 1.5px solid rgba(255, 60, 90, 0.5);
+}
+.modal-card .btn:hover {
+  transform: translateY(-2px);
+}
+
+/* === PÁGINAS DE LOGIN / CADASTRO === */
+.auth-wrap {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(80px, 10vw, 120px) 16px 40px;
+  box-sizing: border-box;
+}
+.auth-card {
+  width: min(100%, 460px);
+  background: rgba(0, 0, 0, 0.8);
+  border: clamp(2px, 0.35vw, 3px) solid rgb(0, 255, 234);
+  border-radius: clamp(10px, 1.4vw, 16px);
+  box-shadow: 0 0 50px rgba(0, 255, 234, 0.2);
+  padding: clamp(22px, 3vw, 38px);
+  text-align: center;
+  animation: fadeInUp 0.8s ease-out;
+}
+.auth-title {
+  font-family: 'Press Start 2P', cursive;
+  color: rgb(0, 255, 234);
+  -webkit-text-stroke: 1px;
+  -webkit-text-stroke-color: black;
+  text-shadow: 1px 8px 5px rgba(0, 0, 0, 1);
+  font-size: clamp(16px, 3vw, 26px);
+  margin: 0 0 24px;
+  line-height: 1.4;
+}
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-align: left;
+}
+.auth-form label {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 8px;
+  color: rgba(0, 255, 234, 0.9);
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+  display: block;
+}
+.auth-form input {
+  width: 100%;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 11px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1.5px solid rgba(0, 255, 234, 0.4);
+  border-radius: 8px;
+  padding: 12px;
+  box-sizing: border-box;
+  transition: all 0.25s ease;
+}
+.auth-form input:focus {
+  outline: none;
+  border-color: rgb(0, 255, 234);
+  box-shadow: 0 0 18px rgba(0, 255, 234, 0.25);
+}
+
+/* Campo de senha com botão de mostrar/ocultar */
+.pw-field {
+  position: relative;
+  width: 100%;
+}
+.pw-field input {
+  padding-right: clamp(40px, 6vw, 52px) !important;
+}
+.modal-card .pw-field input {
+  padding-right: 40px !important;
+}
+.pw-toggle {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+  width: clamp(28px, 4vw, 34px);
+  height: clamp(28px, 4vw, 34px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: rgb(0, 255, 234);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 4px;
+  transition: all 0.2s ease;
+}
+.pw-toggle:hover {
+  text-shadow: 0 0 12px rgba(0, 255, 234, 0.6);
+}
+.pw-toggle:focus-visible {
+  outline: 2px solid rgba(0, 255, 234, 0.6);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+.pw-toggle svg {
+  width: clamp(16px, 2.4vw, 20px);
+  height: clamp(16px, 2.4vw, 20px);
+  display: block;
+}
+.pw-toggle .eye-closed {
+  display: none;
+}
+.pw-toggle.show .eye-open {
+  display: none;
+}
+.pw-toggle.show .eye-closed {
+  display: block;
+}
+
+/* Logo fixa no canto superior esquerdo (igual à sidebar do index) */
+.auth-logo {
+  position: fixed;
+  top: clamp(8px, 1.2vw, 12px);
+  left: clamp(8px, 1.2vw, 12px);
+  width: clamp(64px, 8vw, 110px);
+  height: clamp(64px, 8vw, 110px);
+  object-fit: contain;
+  z-index: 1000;
+  border: clamp(2px, 0.35vw, 3px) solid rgb(0, 255, 234);
+  border-radius: clamp(6px, 0.8vw, 8px);
+  background: rgba(0, 0, 0, 0.3);
+  padding: 4px;
+  animation: floatMove 6s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+  will-change: transform;
+}
+@keyframes floatMove {
+  0% { transform: translateY(0px) translateX(0px); }
+  33% { transform: translateY(-6px) translateX(3px); }
+  66% { transform: translateY(3px) translateX(-3px); }
+  100% { transform: translateY(0px) translateX(0px); }
+}
+.auth-form .field {
+  display: flex;
+  flex-direction: column;
+}
+.auth-submit {
+  margin-top: 6px;
+  padding: 14px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 11px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgb(0, 255, 234), rgb(0, 200, 180));
+  color: #000;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+.auth-submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 30px rgba(0, 255, 234, 0.4);
+}
+.auth-submit:disabled {
+  opacity: 0.6;
+  cursor: wait;
+  transform: none;
+}
+.auth-error {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 8px;
+  line-height: 1.9;
+  color: #ff5b6e;
+  min-height: 16px;
+  text-align: center;
+}
+.google-btn {
+  width: 100%;
+  margin-top: 4px;
+  padding: 12px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 10px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  border: 1.5px solid rgba(0, 255, 234, 0.45);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+.google-btn:hover {
+  background: rgba(0, 255, 234, 0.1);
+  box-shadow: 0 0 24px rgba(0, 255, 234, 0.2);
+}
+.auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(0, 255, 234, 0.5);
+  font-family: 'Press Start 2P', cursive;
+  font-size: 7px;
+  margin: 16px 0;
+}
+.auth-divider::before,
+.auth-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 234, 0.5), transparent);
+}
+.auth-switch {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 8px;
+  color: rgba(0, 255, 234, 0.85);
+  line-height: 1.9;
+  margin: 18px 0 8px;
+}
+.auth-switch a {
+  color: #fff;
+  text-shadow: 0 0 12px rgba(0, 255, 234, 0.5);
+}
+.auth-home {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 7px;
+  color: rgba(0, 255, 234, 0.7);
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 10px;
+}
+.auth-home:hover {
+  color: rgb(0, 255, 234);
+}
+
+/* Honeypot anti-bot (invisível para humanos) */
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  overflow: hidden;
+}
+
+/* Toast */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: rgba(0, 0, 0, 0.92);
+  border: 1.5px solid rgba(0, 255, 234, 0.5);
+  color: rgb(0, 255, 234);
+  font-family: 'Press Start 2P', cursive;
+  font-size: 8px;
+  line-height: 1.8;
+  padding: 14px 18px;
+  border-radius: 10px;
+  z-index: 3000;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  max-width: 90vw;
+  text-align: center;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 640px) {
+  .user-chip { font-size: 7px; padding: 5px 8px; }
+  .auth-form input { font-size: 10px; padding: 12px 10px; }
+  .auth-submit { font-size: 9px; }
+}

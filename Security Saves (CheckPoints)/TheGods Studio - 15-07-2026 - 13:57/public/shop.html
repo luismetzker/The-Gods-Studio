@@ -1,0 +1,1079 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>The Gods - Inicio</title>
+        <link rel="icon" type="image/png" href="../Images/TheGods Studio - LOGO.png">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+        <style>
+            * { box-sizing: border-box; }
+            .title{
+                margin: 0;
+                padding: clamp(10px, 2vw, 20px);
+                font-family: 'Press Start 2P', cursive;
+                color: rgb(0, 255, 234);
+                -webkit-text-stroke: 1px;
+                -webkit-text-stroke-color: black;
+                text-align: center;
+                text-shadow: 1px 8px 5px rgba(0, 0, 0, 1);
+                font-size: clamp(14px, 2.2vw, 24px);
+                line-height: 1.4;
+            }
+            .bordered-box {
+                border: clamp(2px, 0.35vw, 3px) solid rgb(0, 255, 234);
+                border-radius: clamp(6px, 0.8vw, 8px);
+                padding: clamp(6px, 1vw, 8px);
+                background: rgba(0, 0, 0, 0.7);
+                display: inline-block;
+                margin: clamp(12px, 2vw, 20px) auto;
+                width: fit-content;
+                max-width: min(100%, 680px);
+            }
+            body {
+                margin: 0;
+                min-height: 100vh;
+                overflow-x: hidden;
+                background: linear-gradient(135deg, #000000 0%, #005757 50%, #00a58f 100%);
+                background-size: 300% 300%;
+                animation: gradientShift 18s ease infinite;
+                box-shadow: inset 0 0 120px rgba(0, 0, 0, 15);
+                position: relative;
+                padding: 0;
+            }
+            .page-shell {
+                width: 100%;
+                max-width: 1280px;
+                margin: 0 auto;
+                padding: clamp(8px, 2vw, 16px) clamp(10px, 2.5vw, 20px) clamp(24px, 4vw, 40px);
+                box-sizing: border-box;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: clamp(100px, 12vw, 180px);
+                padding-left: clamp(180px, 20vw, 280px);
+                padding-right: clamp(10px, 2vw, 20px);
+                transition: all 0.2s ease;
+            }
+            @media (max-width: 1024px) {
+                .page-shell {
+                    padding-left: clamp(160px, 18vw, 220px);
+                    padding-top: clamp(90px, 11vw, 150px);
+                }
+            }
+            @media (max-width: 768px) {
+                .page-shell {
+                    padding-left: clamp(120px, 15vw, 170px);
+                    padding-top: clamp(80px, 10vw, 120px);
+                }
+            }
+            @media (max-width: 640px) {
+                .page-shell {
+                    padding-left: clamp(90px, 12vw, 130px) !important;
+                    padding-top: clamp(70px, 9vw, 90px) !important;
+                    padding-right: 8px !important;
+                }
+                .top-buttons {
+                    top: 6px !important;
+                    right: 6px !important;
+                    gap: 4px !important;
+                    z-index: 1001 !important;
+                }
+                .top-buttons .btn {
+                    font-size: 7px !important;
+                    padding: 4px 8px !important;
+                }
+                .sidebar {
+                    width: clamp(80px, 12vw, 120px) !important;
+                    top: clamp(50px, 7vw, 70px) !important;
+                    left: 4px !important;
+                    bottom: 4px !important;
+                    padding: 8px 0 !important;
+                    border-radius: 8px !important;
+                }
+                .sidebar .logo-sidebar {
+                    width: clamp(45px, 5.5vw, 60px) !important;
+                    height: clamp(45px, 5.5vw, 60px) !important;
+                    margin: 0 auto 6px auto !important;
+                }
+                .sidebar a {
+                    font-size: 6.5px !important;
+                    padding: 5px 8px !important;
+                    border-left-width: 2px !important;
+                }
+                .sidebar a::before {
+                    font-size: 8px !important;
+                    left: 4px !important;
+                }
+                .sidebar a:hover,
+                .sidebar a.active {
+                    padding-left: 24px !important;
+                }
+                .title {
+                    font-size: clamp(10px, 2.8vw, 14px) !important;
+                    padding: 6px 10px !important;
+                }
+                .content-box {
+                    padding: 6px !important;
+                    max-width: 95% !important;
+                }
+            }
+            @media (max-width: 480px) {
+                .page-shell {
+                    padding-left: clamp(70px, 10vw, 100px) !important;
+                    padding-top: clamp(55px, 8vw, 70px) !important;
+                    padding-left: 8px !important;
+                    padding-right: 8px !important;
+                }
+                .sidebar {
+                    width: clamp(55px, 9vw, 80px) !important;
+                    top: clamp(40px, 6vw, 55px) !important;
+                    left: 3px !important;
+                    bottom: 3px !important;
+                    padding: 6px 0 !important;
+                    border-radius: 6px !important;
+                }
+                .sidebar .logo-sidebar {
+                    width: clamp(32px, 4.5vw, 45px) !important;
+                    height: clamp(32px, 4.5vw, 45px) !important;
+                    margin: 0 auto 4px auto !important;
+                    border-width: 1.5px !important;
+                }
+                .sidebar a {
+                    font-size: 5.5px !important;
+                    padding: 4px 6px !important;
+                    border-left-width: 2px !important;
+                }
+                .sidebar a::before {
+                    font-size: 6px !important;
+                    left: 3px !important;
+                }
+                .sidebar a:hover,
+                .sidebar a.active {
+                    padding-left: 18px !important;
+                }
+                .top-buttons {
+                    top: 4px !important;
+                    right: 4px !important;
+                    gap: 3px !important;
+                }
+                .top-buttons .btn {
+                    font-size: 6px !important;
+                    padding: 3px 6px !important;
+                    border-radius: 4px !important;
+                }
+                .title {
+                    font-size: clamp(9px, 2.5vw, 12px) !important;
+                    padding: 4px 8px !important;
+                }
+                .content-box {
+                    padding: 4px !important;
+                    border-width: 1.5px !important;
+                }
+            }
+            @media (max-width: 360px) {
+                .page-shell {
+                    padding-left: clamp(50px, 8vw, 70px) !important;
+                    padding-top: clamp(40px, 7vw, 55px) !important;
+                }
+                .sidebar {
+                    width: clamp(45px, 8vw, 60px) !important;
+                    top: clamp(30px, 5vw, 45px) !important;
+                }
+                .sidebar .logo-sidebar {
+                    width: clamp(25px, 4vw, 35px) !important;
+                    height: clamp(25px, 4vw, 35px) !important;
+                }
+                .sidebar a {
+                    font-size: 4.5px !important;
+                    padding: 3px 4px !important;
+                }
+                .sidebar a::before {
+                    font-size: 5px !important;
+                    left: 2px !important;
+                }
+                .top-buttons .btn {
+                    font-size: 5px !important;
+                    padding: 2px 4px !important;
+                }
+                .title {
+                    font-size: clamp(8px, 2.2vw, 10px) !important;
+                }
+            }
+            .logo {
+                position: fixed;
+                top: clamp(8px, 1.2vw, 12px);
+                left: clamp(8px, 1.2vw, 12px);
+                width: clamp(72px, 8vw, 120px);
+                height: clamp(72px, 8vw, 120px);
+                object-fit: contain;
+                z-index: 1000;
+                border: clamp(2px, 0.35vw, 3px) solid rgb(0, 255, 234);
+                border-radius: clamp(6px, 0.8vw, 8px);
+                background: rgba(0, 0, 0, 0.3);
+            }
+            @media (max-width: 840px) {
+                .title { font-size: clamp(14px, 3vw, 20px); }
+                .logo { width: 90px; height: 90px; top: 8px; left: 8px; }
+            }
+            @media (max-width: 540px) {
+                .page-shell { padding: 0 10px 24px; }
+                .title { font-size: clamp(12px, 4vw, 18px); padding: 16px; }
+            }
+            @keyframes floatMove {
+                0% { transform: translateY(0px) translateX(0px); }
+                33% { transform: translateY(-6px) translateX(3px); }
+                66% { transform: translateY(3px) translateX(-3px); }
+                100% { transform: translateY(0px) translateX(0px); }
+            }
+            @keyframes gradientShift {
+                0% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
+                100% { background-position: 0% 50%; }
+            }
+            @keyframes pulseGlow {
+                0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 234, 0.2), inset 0 0 30px rgba(0, 255, 234, 0.05); }
+                50% { box-shadow: 0 0 40px rgba(0, 255, 234, 0.4), inset 0 0 50px rgba(0, 255, 234, 0.1); }
+            }
+            @keyframes slideInLeft {
+                0% { opacity: 0; transform: translateX(-30px); }
+                100% { opacity: 1; transform: translateX(0); }
+            }
+            @keyframes fadeInUp {
+                0% { opacity: 0; transform: translateY(20px); }
+                100% { opacity: 1; transform: translateY(0); }
+            }
+            @keyframes shimmer {
+                0% { background-position: -200% center; }
+                100% { background-position: 200% center; }
+            }
+            @keyframes borderPulse {
+                0%, 100% { border-color: rgba(0, 255, 234, 0.3); }
+                50% { border-color: rgba(0, 255, 234, 0.8); }
+            }
+            
+            /* === MATRIX RAIN BACKGROUND === */
+            #matrix-canvas {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 1;
+                opacity: 0.5;
+                pointer-events: none;
+            }
+            
+            .content-box {
+                position: relative;
+                z-index: 2;
+                text-align: center;
+                padding: clamp(8px, 1vw, 16px);
+                background: rgba(0, 0, 0, 0.7);
+                border: clamp(2px, 0.35vw, 3px) solid rgb(0, 255, 234);
+                border-radius: clamp(6px, 0.8vw, 8px);
+                max-width: 90%;
+                display: inline-block;
+                animation: pulseGlow 3s ease-in-out infinite;
+                animation: fadeInUp 0.8s ease-out;
+                transition: all 0.3s ease;
+            }
+            .content-box:hover {
+                transform: scale(1.02);
+                border-color: rgb(0, 255, 234);
+                box-shadow: 0 0 60px rgba(0, 255, 234, 0.3);
+            }
+            .content-box .title {
+                background: linear-gradient(90deg, rgb(0, 255, 234), rgb(0, 200, 180), rgb(0, 255, 234));
+                background-size: 200% auto;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                display: inline-block;
+                position: relative;
+                min-width: 200px;
+            }
+            .content-box .title .cursor {
+                display: inline-block;
+                width: 2px;
+                height: 1em;
+                background: rgb(0, 255, 234);
+                margin-left: 2px;
+                animation: blink 0.7s step-end infinite;
+                -webkit-text-fill-color: initial;
+                vertical-align: text-bottom;
+                position: relative;
+                top: 0;
+            }
+            @keyframes blink {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0; }
+            }
+            .content-box .title::after {
+                content: '';
+                display: block;
+                width: 60%;
+                height: 2px;
+                margin: 12px auto 0;
+                background: linear-gradient(90deg, transparent, rgb(0, 255, 234), transparent);
+                animation: borderPulse 2s ease-in-out infinite;
+            }
+            
+            /* === SEPARADOR ABAIXO DO CONTENT-BOX === */
+            .separator {
+                position: relative;
+                z-index: 2;
+                margin-top: clamp(24px, 4vw, 48px);
+                font-family: 'Press Start 2P', cursive;
+                font-size: clamp(10px, 1.2vw, 16px);
+                color: rgb(0, 255, 234);
+                text-align: center;
+                text-shadow: 0 0 20px rgba(0, 255, 234, 0.2);
+                letter-spacing: 1px;
+                opacity: 0.85;
+                background: rgba(0, 0, 0, 0.4);
+                padding: clamp(8px, 1vw, 14px) clamp(12px, 1.5vw, 24px);
+                border-radius: clamp(4px, 0.6vw, 8px);
+                border: 1px solid rgba(0, 255, 234, 0.15);
+                backdrop-filter: blur(4px);
+                white-space: nowrap;
+                animation: fadeInUp 1s ease-out 0.3s both;
+            }
+            @media (max-width: 640px) {
+                .separator {
+                    font-size: clamp(7px, 1.6vw, 10px);
+                    white-space: normal;
+                    padding: 6px 12px;
+                }
+            }
+            
+            /* === TOP RIGHT BUTTONS === */
+            .top-buttons {
+                position: fixed;
+                top: clamp(12px, 1.8vw, 20px);
+                right: clamp(12px, 1.8vw, 20px);
+                z-index: 1000;
+                display: flex;
+                gap: clamp(6px, 0.8vw, 12px);
+                align-items: center;
+                flex-wrap: wrap;
+                justify-content: flex-end;
+            }
+            .top-buttons .btn {
+                padding: clamp(6px, 0.6vw, 10px) clamp(14px, 1.4vw, 24px);
+                font-family: 'Press Start 2P', cursive;
+                font-size: clamp(8px, 0.7vw, 12px);
+                border-radius: clamp(6px, 0.6vw, 10px);
+                text-decoration: none;
+                transition: all 0.3s ease;
+                cursor: pointer;
+                border: none;
+                letter-spacing: 0.5px;
+                white-space: nowrap;
+            }
+            .top-buttons .btn-primary {
+                background: linear-gradient(135deg, rgb(0, 255, 234), rgb(0, 200, 180));
+                color: #000000;
+                box-shadow: 0 0 20px rgba(0, 255, 234, 0.2);
+            }
+            .top-buttons .btn-primary:hover {
+                transform: translateY(-2px) scale(1.02);
+                box-shadow: 0 0 35px rgba(0, 255, 234, 0.4);
+                background: linear-gradient(135deg, rgb(0, 255, 234), rgb(0, 220, 200));
+            }
+            .top-buttons .btn-outline {
+                background: rgba(0, 0, 0, 0.6);
+                color: rgb(0, 255, 234);
+                border: 1.5px solid rgba(0, 255, 234, 0.4);
+                backdrop-filter: blur(8px);
+            }
+            .top-buttons .btn-outline:hover {
+                background: rgba(0, 255, 234, 0.1);
+                border-color: rgb(0, 255, 234);
+                transform: translateY(-2px);
+                box-shadow: 0 0 25px rgba(0, 255, 234, 0.15);
+            }
+            .top-buttons .btn-ghost {
+                background: transparent;
+                color: rgba(0, 255, 234, 0.7);
+                border: none;
+            }
+            .top-buttons .btn-ghost:hover {
+                color: rgb(0, 255, 234);
+                transform: translateY(-2px);
+                text-shadow: 0 0 20px rgba(0, 255, 234, 0.2);
+            }
+            @media (max-width: 640px) {
+                .top-buttons .btn {
+                    font-size: clamp(6px, 1.4vw, 9px);
+                    padding: 4px 10px;
+                }
+                .top-buttons {
+                    gap: 4px;
+                    top: 8px;
+                    right: 8px;
+                }
+            }
+            
+            .page-shell {
+                width: min(100%, 1280px);
+                margin: 0 auto;
+                padding: clamp(8px, 2vw, 16px) clamp(10px, 2.5vw, 20px) clamp(24px, 4vw, 40px);
+                box-sizing: border-box;
+            }
+            .logo {
+                position: fixed;
+                top: clamp(8px, 1.2vw, 12px);
+                left: clamp(8px, 1.2vw, 12px);
+                width: clamp(72px, 8vw, 120px);
+                height: clamp(72px, 8vw, 120px);
+                object-fit: contain;
+                z-index: 1000;
+                border: clamp(2px, 0.35vw, 3px) solid rgb(0, 255, 234);
+                border-radius: clamp(6px, 0.8vw, 8px);
+                background: rgba(0, 0, 0, 0.3);
+            }
+            @media (max-width: 840px) {
+                .title { font-size: clamp(14px, 3vw, 20px); }
+                .logo { width: 90px; height: 90px; top: 8px; left: 8px; }
+            }
+            @media (max-width: 540px) {
+                .page-shell { padding: 0 10px 24px; }
+                .title { font-size: clamp(12px, 4vw, 18px); padding: 16px; }
+            }
+            @keyframes floatMove {
+                0% { transform: translateY(0px) translateX(0px); }
+                33% { transform: translateY(-6px) translateX(3px); }
+                66% { transform: translateY(3px) translateX(-3px); }
+                100% { transform: translateY(0px) translateX(0px); }
+            }
+            @keyframes gradientShift {
+                0% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
+                100% { background-position: 0% 50%; }
+            }
+            .sidebar {
+                position: fixed;
+                top: clamp(8px, 1.2vw, 1px);
+                left: clamp(1px, calc(1.2vw + 10px), 2px);
+                bottom: clamp(8px, 1.2vw, 1px);
+                width: clamp(240px, 14vw, 180px);
+                background: rgba(0, 0, 0, 0.85);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(0, 255, 234, 5);
+                border-radius: 12px;
+                padding: 12px 0;
+                z-index: 999;
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8), inset 0 0 30px rgba(0, 255, 234, 0.05);
+                transition: all 0.3s ease;
+                overflow-y: auto;
+                overflow-x: hidden;                animation: slideInLeft 0.8s ease-out;            }
+            .sidebar:hover {
+                border-color: rgba(0, 255, 234, 0.6);
+                box-shadow: 0 8px 40px rgba(0, 255, 234, 0.1), inset 0 0 40px rgba(0, 255, 234, 0.08);
+            }
+            .sidebar .logo-sidebar {
+                width: clamp(120px, 12vw, 160px);
+                height: clamp(120px, 12vw, 160px);
+                object-fit: contain;
+                border: clamp(2px, 0.35vw, 3px) solid rgb(0, 255, 234);
+                border-radius: clamp(6px, 0.8vw, 8px);
+                background: rgba(0, 0, 0, 0.3);
+                animation: floatMove 6s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite;
+                margin: 0 auto 12px auto;
+                display: block;
+                padding: 4px;
+                will-change: transform;
+            }
+            .sidebar a {
+                color: rgba(0, 255, 234, 0.7);
+                text-decoration: none;
+                font-family: 'Press Start 2P', cursive;
+                font-size: clamp(9px, 0.9vw, 13px);
+                padding: 12px 20px;
+                text-align: left;
+                transition: all 0.3s ease;
+                border-left: 3px solid transparent;
+                position: relative;
+                letter-spacing: 0.5px;
+            }
+            .sidebar a::before {
+                content: '▸';
+                position: absolute;
+                left: 8px;
+                opacity: 0;
+                transition: all 0.3s ease;
+                color: rgb(0, 255, 234);
+            }
+            .sidebar a:hover {
+                color: rgb(0, 255, 234);
+                background: rgba(0, 255, 234, 0.08);
+                border-left-color: rgb(0, 255, 234);
+                transform: translateX(8px);
+                padding-left: 32px;
+                text-shadow: 0 0 20px rgba(0, 255, 234, 0.2);
+            }
+            .sidebar a:hover::before {
+                opacity: 1;
+            }
+            .sidebar a.active {
+                color: rgb(0, 255, 234);
+                background: rgba(0, 255, 234, 0.12);
+                border-left-color: rgb(0, 255, 234);
+                padding-left: 32px;
+            }
+            .sidebar a.active::before {
+                opacity: 1;
+            }
+            @media (max-width: 540px) {
+                .sidebar {
+                    width: 100px;
+                    top: 70px;
+                    left: 4px;
+                    padding: 8px 0;
+                }
+                .sidebar a {
+                    font-size: 8px;
+                    padding: 8px 10px;
+                }
+            }
+            @media (max-width: 400px) {
+                .sidebar {
+                    width: 80px;
+                    left: 2px;
+                }
+                .sidebar a {
+                    font-size: 7px;
+                    padding: 6px 8px;
+                }
+            }
+            
+            /* === DIVISOR: DESENVOLVIMENTO WEB === */
+            .divider-section {
+                position: relative;
+                z-index: 2;
+                width: 100%;
+                max-width: 100%;
+                margin: clamp(30px, 5vw, 60px) auto 0 auto;
+                display: flex;
+                align-items: center;
+                gap: clamp(16px, 2vw, 32px);
+                animation: fadeInUp 0.8s ease-out 0.3s both;
+                padding: 0;
+            }
+            
+            .divider-line {
+                flex: 1;
+                height: 3px;
+                background: linear-gradient(90deg, transparent, rgba(0, 255, 234, 0.25), rgba(0, 255, 234, 0.5), rgba(0, 255, 234, 0.25), transparent);
+                background-size: 200% 100%;
+                position: relative;
+                border-radius: 2px;
+                animation: shimmerLine 4s ease-in-out infinite;
+            }
+            .divider-line::after {
+                content: '';
+                position: absolute;
+                top: -2px;
+                left: 0;
+                right: 0;
+                bottom: -2px;
+                background: linear-gradient(90deg, transparent, rgba(0, 255, 234, 0.15), rgba(0, 255, 234, 0.3), rgba(0, 255, 234, 0.15), transparent);
+                filter: blur(6px);
+                animation: shimmerLine 4s ease-in-out infinite 1s;
+            }
+            
+            @keyframes shimmerLine {
+                0% { background-position: -200% center; }
+                100% { background-position: 200% center; }
+            }
+            
+            .divider-text {
+                margin: 0;
+                padding: clamp(10px, 2vw, 20px);
+                font-family: 'Press Start 2P', cursive;
+                color: rgb(0, 255, 234);
+                -webkit-text-stroke: 1px;
+                -webkit-text-stroke-color: black;
+                text-align: center;
+                text-shadow: 1px 8px 5px rgba(0, 0, 0, 1);
+                font-size: clamp(14px, 1.3vw, 24px);
+                line-height: 1.4;
+                background: linear-gradient(90deg, rgb(0, 255, 234), rgb(0, 200, 180), rgb(0, 255, 234));
+                background-size: 200% auto;
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+                white-space: nowrap;
+                letter-spacing: 2px;
+                opacity: 0.95;
+                transition: all 0.4s ease;
+                padding: 0 clamp(12px, 1.5vw, 24px);
+                position: relative;
+                flex-shrink: 0;
+                animation: shimmerText 3s ease-in-out infinite;
+            }
+            
+            @keyframes shimmerText {
+                0% { background-position: 0% center; }
+                50% { background-position: 100% center; }
+                100% { background-position: 0% center; }
+            }
+            .divider-text::before {
+                content: '▸';
+                margin-right: 12px;
+                opacity: 0.5;
+                font-size: 0.7em;
+                display: inline-block;
+                animation: pulseIcon 2s ease-in-out infinite;
+            }
+            .divider-text::after {
+                content: '◂';
+                margin-left: 12px;
+                opacity: 0.5;
+                font-size: 1em;
+                display: inline-block;
+                animation: pulseIcon 2s ease-in-out infinite 0.5s;
+            }
+            
+            @keyframes pulseIcon {
+                0%, 100% { opacity: 0.3; }
+                50% { opacity: 0.8; }
+            }
+            
+            .divider-section:hover .divider-text {
+                opacity: 1;
+                text-shadow: 0 0 40px rgba(0, 255, 234, 0.4), 0 0 80px rgba(0, 255, 234, 0.1);
+                transform: scale(1.02);
+            }
+            .divider-section:hover .divider-line {
+                height: 4px;
+                background: linear-gradient(90deg, transparent, rgba(0, 255, 234, 0.4), rgba(0, 255, 234, 0.8), rgba(0, 255, 234, 0.4), transparent);
+            }
+            
+            @media (max-width: 640px) {
+                .divider-section {
+                    gap: 6px;
+                }
+                .divider-text {
+                    font-size: clamp(8px, 2.2vw, 12px);
+                    white-space: normal;
+                    text-align: center;
+                    letter-spacing: 1px;
+                    padding: 0 6px;
+                }
+                .divider-text::before,
+                .divider-text::after {
+                    display: none;
+                }
+                .divider-line {
+                    height: 2px;
+                }
+                .divider-section:hover .divider-line {
+                    height: 2.5px;
+                }
+            }
+
+            /* === LINHA FINAL ATÉ O FIM DA PÁGINA === */
+            .footer-divider {
+                position: relative;
+                z-index: 2;
+                width: 100%;
+                margin-top: clamp(30px, 5vw, 60px);
+                padding-bottom: clamp(20px, 3vw, 40px);
+            }
+            
+            .footer-line {
+                width: 100%;
+                height: 2px;
+                background: linear-gradient(90deg, transparent, rgba(0, 255, 234, 0.15), transparent);
+                position: relative;
+            }
+            .footer-line::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(90deg, transparent, rgba(0, 255, 234, 0.3), transparent);
+                animation: pulseGlow 4s ease-in-out infinite;
+            }
+            
+            @media (max-width: 640px) {
+                .footer-divider {
+                    margin-top: 20px;
+                    padding-bottom: 16px;
+                }
+                .footer-line {
+                    height: 1.5px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- MATRIX RAIN CANVAS -->
+        <canvas id="matrix-canvas"></canvas>
+        
+
+        
+        <div class="sidebar">
+            <img src="Images/TheGods Studio - LOGO.png" alt="Logo" class="logo-sidebar">
+            <a href="index.html">
+                <span class="icon"></span>
+                Inicio
+            </a>
+            <a href="#">
+                <span class="icon"></span>
+                Aplicativos
+            </a>
+            <a href="shop.html" class="active">
+                <span class="icon"></span>
+                Loja
+            </a>
+            <a href="#">
+                <span class="icon"></span>
+                Contato
+            </a>
+        </div>
+        
+        <div class="page-shell">
+            <div class="content-box">
+                <h1 class="title">
+                    <div><span id="typed-title"></span><span class="cursor" id="cursor-title"></span></div>
+                    <div><span id="typed-subtitle" style="font-size: 0.5em; opacity: 0.8; color: rgb(0, 255, 234); font-family: 'Press Start 2P', cursive;"></span><span class="cursor" id="cursor-subtitle"></span></div>
+                </h1>
+            </div>
+            
+            <!-- DIVISOR: DESENVOLVIMENTO WEB / CRIAÇÃO DE SITES -->
+            <div class="divider-section">
+                <div class="divider-line"></div>
+                <span class="divider-text">Desenvolvimento web / Criação de Sites</span>
+                <div class="divider-line"></div>
+            </div>
+        </div>
+        
+        <script>
+            // === TYPING ANIMATION WITH SUBTITLE (DUAL CURSOR) ===
+            (function() {
+                const titlePhrases = [
+                    'The Gods Studio',
+                ];
+                
+                const subtitlePhrases = [
+                    'Loja oficial - Boas Compras!'   // <-- SUBTÍTULO ALTERADO
+                ];
+                
+                const typedTitle = document.getElementById('typed-title');
+                const typedSubtitle = document.getElementById('typed-subtitle');
+                const cursorTitle = document.getElementById('cursor-title');
+                const cursorSubtitle = document.getElementById('cursor-subtitle');
+                
+                let titleIndex = 0;
+                let subtitleIndex = 0;
+                let titleCharIndex = 0;
+                let subtitleCharIndex = 0;
+                let phase = 0; // 0: título, 1: subtítulo, 2: pausa, 3: apagando subtítulo, 4: apagando título
+                let errorMode = false;
+                let errorCharIndex = 0;
+                let errorPhrase = '';
+                let hesitating = false;
+                let hesitationCount = 0;
+                let timeout;
+                
+                const typingSpeed = 70;
+                const deleteSpeed = 35;
+                const pauseDelay = 1500;
+                const hesitationDelay = 200;
+                
+                function updateCursors() {
+                    // Esconde ambos os cursores inicialmente
+                    cursorTitle.style.display = 'none';
+                    cursorSubtitle.style.display = 'none';
+                    
+                    // Mostra o cursor apropriado baseado na fase
+                    if (phase === 0 || phase === 4) {
+                        cursorTitle.style.display = 'inline-block';
+                        cursorSubtitle.style.display = 'none';
+                    } else if (phase === 1 || phase === 2 || phase === 3) {
+                        cursorTitle.style.display = 'none';
+                        cursorSubtitle.style.display = 'inline-block';
+                    }
+                }
+                
+                function type() {
+                    const currentTitle = titlePhrases[titleIndex];
+                    const currentSubtitle = subtitlePhrases[subtitleIndex];
+                    
+                    updateCursors();
+                    
+                    // FASE 0: Digitando título
+                    if (phase === 0) {
+                        if (titleCharIndex < currentTitle.length) {
+                            // Chance de hesitação (apaga um pouco e redigita) - 5%
+                            if (!hesitating && Math.random() < 0.05 && titleCharIndex > 5) {
+                                hesitating = true;
+                                hesitationCount = Math.floor(Math.random() * 3) + 1; // apaga 1-3 caracteres
+                                for (let i = 0; i < hesitationCount && titleCharIndex > 0; i++) {
+                                    titleCharIndex--;
+                                }
+                                typedTitle.textContent = currentTitle.substring(0, titleCharIndex);
+                                timeout = setTimeout(type, deleteSpeed + 50);
+                                return;
+                            }
+                            
+                            if (hesitating) {
+                                if (titleCharIndex < currentTitle.length) {
+                                    hesitating = false;
+                                }
+                            }
+                            
+                            // Chance de erro ao digitar
+                            if (Math.random() < 0.08 && titleCharIndex > 2 && !errorMode) {
+                                errorMode = true;
+                                const wrongChar = String.fromCharCode(33 + Math.random() * 94);
+                                typedTitle.textContent = currentTitle.substring(0, titleCharIndex) + wrongChar;
+                                errorCharIndex = titleCharIndex;
+                                timeout = setTimeout(type, typingSpeed + 150);
+                                return;
+                            }
+                            
+                            if (errorMode) {
+                                if (errorCharIndex < currentTitle.length) {
+                                    if (errorCharIndex < titleCharIndex + 1) {
+                                        typedTitle.textContent = currentTitle.substring(0, errorCharIndex + 1);
+                                        errorCharIndex++;
+                                        timeout = setTimeout(type, typingSpeed + 50);
+                                        return;
+                                    }
+                                }
+                                errorMode = false;
+                            }
+                            
+                            typedTitle.textContent = currentTitle.substring(0, titleCharIndex + 1);
+                            titleCharIndex++;
+                            timeout = setTimeout(type, typingSpeed + Math.random() * 50);
+                        } else {
+                            // Título completo, vai para subtítulo
+                            phase = 1;
+                            timeout = setTimeout(type, 400);
+                        }
+                    }
+                    // FASE 1: Digitando subtítulo
+                    else if (phase === 1) {
+                        if (subtitleCharIndex < currentSubtitle.length) {
+                            // Chance de hesitação no subtítulo
+                            if (!hesitating && Math.random() < 0.06 && subtitleCharIndex > 5) {
+                                hesitating = true;
+                                hesitationCount = Math.floor(Math.random() * 2) + 1;
+                                for (let i = 0; i < hesitationCount && subtitleCharIndex > 0; i++) {
+                                    subtitleCharIndex--;
+                                }
+                                typedSubtitle.textContent = currentSubtitle.substring(0, subtitleCharIndex);
+                                timeout = setTimeout(type, deleteSpeed + 50);
+                                return;
+                            }
+                            
+                            if (hesitating) {
+                                hesitating = false;
+                            }
+                            
+                            // Chance de erro no subtítulo
+                            if (Math.random() < 0.10 && subtitleCharIndex > 2 && !errorMode) {
+                                errorMode = true;
+                                const wrongChar = String.fromCharCode(33 + Math.random() * 94);
+                                typedSubtitle.textContent = currentSubtitle.substring(0, subtitleCharIndex) + wrongChar;
+                                errorCharIndex = subtitleCharIndex;
+                                timeout = setTimeout(type, typingSpeed + 150);
+                                return;
+                            }
+                            
+                            if (errorMode) {
+                                if (errorCharIndex < currentSubtitle.length) {
+                                    if (errorCharIndex < subtitleCharIndex + 1) {
+                                        typedSubtitle.textContent = currentSubtitle.substring(0, errorCharIndex + 1);
+                                        errorCharIndex++;
+                                        timeout = setTimeout(type, typingSpeed + 50);
+                                        return;
+                                    }
+                                }
+                                errorMode = false;
+                            }
+                            
+                            typedSubtitle.textContent = currentSubtitle.substring(0, subtitleCharIndex + 1);
+                            subtitleCharIndex++;
+                            timeout = setTimeout(type, typingSpeed + Math.random() * 50);
+                        } else {
+                            // Subtítulo completo, pausa
+                            phase = 2;
+                            timeout = setTimeout(type, pauseDelay);
+                        }
+                    }
+                    // FASE 2: Pausa antes de apagar
+                    else if (phase === 2) {
+                        phase = 3;
+                        timeout = setTimeout(type, 200);
+                    }
+                    // FASE 3: Apagando subtítulo
+                    else if (phase === 3) {
+                        if (subtitleCharIndex > 0) {
+                            typedSubtitle.textContent = currentSubtitle.substring(0, subtitleCharIndex - 1);
+                            subtitleCharIndex--;
+                            timeout = setTimeout(type, deleteSpeed + Math.random() * 30);
+                        } else {
+                            phase = 4;
+                            timeout = setTimeout(type, 200);
+                        }
+                    }
+                    // FASE 4: Apagando título
+                    else if (phase === 4) {
+                        if (titleCharIndex > 0) {
+                            typedTitle.textContent = currentTitle.substring(0, titleCharIndex - 1);
+                            titleCharIndex--;
+                            timeout = setTimeout(type, deleteSpeed + Math.random() * 30);
+                        } else {
+                            // Troca para próxima frase
+                            titleIndex = (titleIndex + 1) % titlePhrases.length;
+                            subtitleIndex = (subtitleIndex + 1) % subtitlePhrases.length;
+                            titleCharIndex = 0;
+                            subtitleCharIndex = 0;
+                            errorMode = false;
+                            hesitating = false;
+                            phase = 0;
+                            timeout = setTimeout(type, 400);
+                        }
+                    }
+                }
+                
+                // Inicia a digitação após um pequeno delay
+                setTimeout(type, 500);
+            })();
+        </script>
+        <script>
+            (function() {
+                const canvas = document.getElementById('matrix-canvas');
+                const ctx = canvas.getContext('2d');
+                
+                let width = window.innerWidth;
+                let height = window.innerHeight;
+                
+                canvas.width = width;
+                canvas.height = height;
+                
+                // === CARACTERES DE MÚLTIPLOS ALFABETOS ===
+                const characterSets = [
+                    '01',
+                    'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをんアイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン',
+                    '的一是不了人在我有他这个们中来上大为和国地到以说时要就出会可也你对生能而子那得于着下自之过家学里小多然心行天法都现主没么去成只如事把样变回看种她同工向机王正反物特老从明己问长斯外给当见两并关重应性报林名规之千文将件表战果六农决命组军流结各百天信运安证府报权性现别真题阶水少书代合她场',
+                    '가나다라마바사아자차카타파하거너더러머버서어저처커터퍼허겨녀려며벼셔여져쳐켜텨펴혜계례몌폐셰예체례해개내대래매배새애재캐태패해갠낸댄랜맨뱬샌앤잰캔탠팬헨겔넬델렐멜벨셀엘젤켈텔펠헬',
+                    'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя',
+                    'ᏆᏇᏈᏉᏊᏋᏌᏍᏎᏏᏐᏑᏒᏓᏔᏕᏖᏗᏘᏙᏚᏛᏜᏝᏞᏟᏠᏡᏢᏣᏤᏥᏦᏧᏨᏩᏪᏫᏬᏭᏮᏯᏰᏱᏲᏳᏴ',
+                    'ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩαβγδεζηθικλμνξοπρστυφχψω',
+                    '!@#$%^&*()_+-=[]{}|;:,.<>?/~`',
+                    '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz',
+                    'אבגדהוזחטיכלמנסעפצקרשת'
+                ];
+                
+                const allChars = characterSets.join('');
+                const charsArray = allChars.split('');
+                
+                const fontSize = Math.max(14, Math.min(20, width / 60));
+                const columns = Math.floor(width / fontSize);
+                const drops = [];
+                
+                for (let i = 0; i < columns; i++) {
+                    drops[i] = Math.floor(Math.random() * -100);
+                }
+                
+                const baseCyan = { r: 0, g: 255, b: 234 };
+                let frameCount = 0;
+                let resetTimer = 0;
+                
+                function draw() {
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.035)';
+                    ctx.fillRect(0, 0, width, height);
+                    
+                    ctx.textAlign = 'center';
+                    
+                    for (let i = 0; i < drops.length; i++) {
+                        const char = charsArray[Math.floor(Math.random() * charsArray.length)];
+                        const brightness = Math.random() * 0.3 + 0.7;
+                        const r = Math.floor(baseCyan.r * 0.2);
+                        const g = Math.floor(baseCyan.g * brightness);
+                        const b = Math.floor(baseCyan.b * brightness * 0.8);
+                        
+                        ctx.font = fontSize + 'px monospace';
+                        ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+                        
+                        const x = i * fontSize + fontSize / 2;
+                        const y = drops[i] * fontSize;
+                        
+                        if (y > 0 && Math.random() < 0.03) {
+                            const brightG = Math.min(255, baseCyan.g * 1.2);
+                            const brightB = Math.min(234, baseCyan.b * 1.1);
+                            ctx.fillStyle = `rgb(${Math.floor(baseCyan.r * 0.5)}, ${Math.floor(brightG)}, ${Math.floor(brightB)})`;
+                            ctx.shadowColor = `rgba(0, ${baseCyan.g}, ${baseCyan.b * 0.6}, 0.5)`;
+                            ctx.shadowBlur = 20;
+                        } else if (y > 0 && Math.random() < 0.08) {
+                            ctx.shadowColor = `rgba(0, ${baseCyan.g}, ${baseCyan.b * 0.4}, 0.15)`;
+                            ctx.shadowBlur = 8;
+                        } else {
+                            ctx.shadowBlur = 0;
+                        }
+                        
+                        ctx.fillText(char, x, y);
+                        ctx.shadowBlur = 0;
+                        
+                        drops[i]++;
+                        
+                        if (drops[i] * fontSize > height && Math.random() > 0.975) {
+                            drops[i] = Math.floor(Math.random() * -20);
+                        }
+                    }
+                    
+                    frameCount++;
+                    
+                    // A cada 15 segundos (~900 frames a 60fps), recria as gotas de forma suave
+                    if (frameCount > 900) {
+                        frameCount = 0;
+                        // Recria 10% das gotas por vez, de forma imperceptível
+                        for (let i = 0; i < drops.length; i++) {
+                            if (Math.random() < 0.1) {
+                                drops[i] = Math.floor(Math.random() * -100);
+                            }
+                        }
+                    }
+                    
+                    requestAnimationFrame(draw);
+                }
+                
+                function resize() {
+                    width = window.innerWidth;
+                    height = window.innerHeight;
+                    canvas.width = width;
+                    canvas.height = height;
+                    const newFontSize = Math.max(14, Math.min(20, width / 60));
+                    const newColumns = Math.floor(width / newFontSize);
+                    if (newColumns !== columns) {
+                        while (drops.length < newColumns) {
+                            drops.push(Math.floor(Math.random() * -100));
+                        }
+                        while (drops.length > newColumns) {
+                            drops.pop();
+                        }
+                    }
+                }
+                
+                window.addEventListener('resize', resize);
+                draw();
+            })();
+        </script>
+    </body>
+</html>

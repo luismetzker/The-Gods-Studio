@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>The Gods - Entrar</title>
+        <link rel="icon" type="image/png" href="Images/TheGods Studio - LOGO.png">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="auth.css">
+        <style>
+            * { box-sizing: border-box; }
+            body {
+                margin: 0;
+                min-height: 100vh;
+                overflow-x: hidden;
+                background: linear-gradient(135deg, #000000 0%, #005757 50%, #00a58f 100%);
+                background-size: 300% 300%;
+                animation: gradientShift 18s ease infinite;
+                box-shadow: inset 0 0 120px rgba(0, 0, 0, 15);
+                position: relative;
+                padding: 0;
+            }
+            #matrix-canvas {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 1;
+                opacity: 0.5;
+                pointer-events: none;
+            }
+            @keyframes gradientShift {
+                0% { background-position: 0% 50%; }
+                50% { background-position: 100% 50%; }
+                100% { background-position: 0% 50%; }
+            }
+        </style>
+    </head>
+    <body>
+        <canvas id="matrix-canvas"></canvas>
+
+        <img src="Images/TheGods Studio - LOGO.png" alt="The Gods Studio" class="auth-logo">
+
+        <div class="auth-wrap">
+            <div class="auth-card">
+                <h1 class="auth-title">ENTRAR</h1>
+                <form id="login-form" class="auth-form" autocomplete="on">
+                    <div class="field">
+                        <label for="identifier">Email ou usuário</label>
+                        <input id="identifier" name="identifier" type="text" autocomplete="username" required>
+                    </div>
+                    <div class="field">
+                        <label for="password">Senha</label>
+                        <div class="pw-field">
+                            <input id="password" name="password" type="password" autocomplete="current-password" required>
+                            <button type="button" class="pw-toggle" data-target="password" aria-label="Mostrar senha" aria-pressed="false">
+                                <svg class="eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z"/><circle cx="12" cy="12" r="3"/></svg>
+                                <svg class="eye-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <input class="honeypot" name="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+                    <div class="auth-error" id="auth-error"></div>
+                    <div class="auth-error" id="auth-info"></div>
+                    <button class="auth-submit" type="submit">Entrar</button>
+                </form>
+
+                <button class="google-btn" id="google-login" style="display: none;">Entrar com Google</button>
+
+                <p class="auth-switch">Não tem conta? <a href="signup.html">Criar conta</a></p>
+                <div id="forgot-box" hidden style="margin-top: 8px;">
+                    <p class="auth-switch" style="margin: 0 0 10px;">Informe seu e-mail para receber o link de redefinição de senha.</p>
+                    <div class="field">
+                        <label for="forgot-email">E-mail</label>
+                        <input id="forgot-email" type="email" autocomplete="email">
+                    </div>
+                    <button class="auth-submit" id="forgot-btn" type="button" style="margin-top: 12px;">Enviar link</button>
+                    <div class="auth-error" id="forgot-error"></div>
+                </div>
+                <p class="auth-switch"><a href="#" id="forgot-toggle">Esqueci minha senha</a></p>
+                <a class="auth-home" href="index.html">← Voltar ao início</a>
+            </div>
+        </div>
+
+        <script src="auth.js"></script>
+        <script>
+            (function () {
+                var t = document.getElementById('forgot-toggle');
+                var box = document.getElementById('forgot-box');
+                if (t && box) {
+                    t.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        box.hidden = !box.hidden;
+                    });
+                }
+                var btn = document.getElementById('forgot-btn');
+                if (btn) {
+                    btn.addEventListener('click', async function () {
+                        var email = document.getElementById('forgot-email').value.trim();
+                        var err = document.getElementById('forgot-error');
+                        err.textContent = '';
+                        btn.disabled = true;
+                        try {
+                            var r = await fetch('/api/account/forgot-password', {
+                                method: 'POST',
+                                headers: { 'X-Requested-With': 'xmlhttprequest', 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ email: email }),
+                            });
+                            var j = await r.json();
+                            if (r.ok) {
+                                err.style.color = 'rgb(0, 255, 234)';
+                                err.textContent = 'Enviamos um link de redefinição para o seu e-mail.';
+                                box.hidden = true;
+                            } else {
+                                err.textContent = (j && j.error) || 'Não foi possível enviar.';
+                            }
+                        } catch (_) {
+                            err.textContent = 'Erro de conexão. Tente novamente.';
+                        } finally {
+                            btn.disabled = false;
+                        }
+                    });
+                }
+            })();
+        </script>
+        <script>
+            (function () {
+                const canvas = document.getElementById('matrix-canvas');
+                const ctx = canvas.getContext('2d');
+                let width = window.innerWidth;
+                let height = window.innerHeight;
+                canvas.width = width;
+                canvas.height = height;
+                const chars = '01アイウエオカキクケコTHEGODS<>/{}[]#$%&*+=ABCDEF0123456789'.split('');
+                const fontSize = Math.max(14, Math.min(20, width / 60));
+                const columns = Math.floor(width / fontSize);
+                const drops = Array.from({ length: columns }, () => Math.floor(Math.random() * -100));
+                const base = { r: 0, g: 255, b: 234 };
+                function draw() {
+                    ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                    ctx.fillRect(0, 0, width, height);
+                    ctx.textAlign = 'center';
+                    for (let i = 0; i < drops.length; i++) {
+                        const ch = chars[Math.floor(Math.random() * chars.length)];
+                        const bright = Math.random() * 0.3 + 0.7;
+                        ctx.fillStyle = 'rgb(' + Math.floor(base.r * 0.2) + ',' + Math.floor(base.g * bright) + ',' + Math.floor(base.b * bright * 0.8) + ')';
+                        ctx.font = fontSize + 'px monospace';
+                        ctx.fillText(ch, i * fontSize + fontSize / 2, drops[i] * fontSize);
+                        drops[i]++;
+                        if (drops[i] * fontSize > height && Math.random() > 0.975) drops[i] = Math.floor(Math.random() * -20);
+                    }
+                    requestAnimationFrame(draw);
+                }
+                window.addEventListener('resize', () => {
+                    width = window.innerWidth; height = window.innerHeight;
+                    canvas.width = width; canvas.height = height;
+                });
+                draw();
+            })();
+        </script>
+    </body>
+</html>
